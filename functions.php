@@ -16,9 +16,14 @@ if ( ! function_exists( 'materialism_setup' ) ) :
 		add_theme_support( 'title-tag' );
 		add_theme_support( 'post-thumbnails' );
 
+
 		register_nav_menus( array(
 			'primary' => esc_html__( 'Primary Menu', 'materialism' ),
 		) );
+
+		add_filter( 'nav_menu_css_class', 'materialism_menu_css_class', 10, 4 );
+		add_filter( 'page_css_class', 'materialism_menu_css_class', 10, 4 );
+
 
 		add_theme_support( 'html5', array(
 			'search-form',
@@ -45,9 +50,19 @@ if ( ! function_exists( 'materialism_setup' ) ) :
 			'default-text-color' => '000000',
 			'wp-head-callback'   => 'materialism_header_style',
 		) ) );
+
 	}
 endif;
 add_action( 'after_setup_theme', 'materialism_setup' );
+
+
+
+function materialism_menu_css_class ( $classes, $item, $args ) {
+	if ( ! empty( $args->item_class ) ) {
+		$classes[] = $args->item_class;
+	}
+	return $classes;
+}
 
 /**
  * @global int $content_width
@@ -108,7 +123,7 @@ if ( ! function_exists( 'materialism_header_style' ) ) :
 				background-image: url(<?php echo esc_url( $header_image ); ?>);
 				background-repeat: no-repeat;
 				background-color: transparent;
-				background-position: 50% 50%;
+				background-position: center top;
 				-webkit-background-size: cover;
 				-moz-background-size: cover;
 				-o-background-size: cover;
