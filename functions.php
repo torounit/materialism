@@ -16,14 +16,9 @@ if ( ! function_exists( 'materialism_setup' ) ) :
 		add_theme_support( 'title-tag' );
 		add_theme_support( 'post-thumbnails' );
 
-
 		register_nav_menus( array(
 			'primary' => esc_html__( 'Primary Menu', 'materialism' ),
 		) );
-
-		add_filter( 'nav_menu_css_class', 'materialism_menu_css_class', 10, 4 );
-		add_filter( 'page_css_class', 'materialism_menu_css_class', 10, 4 );
-
 
 		add_theme_support( 'html5', array(
 			'search-form',
@@ -42,26 +37,24 @@ if ( ! function_exists( 'materialism_setup' ) ) :
 		) );
 
 		add_theme_support( 'custom-background', apply_filters( 'materialism_custom_background_args', array(
-			'default-color' => 'eeeeee',
+			'default-color' => 'ffffff',
 			'default-image' => '',
 		) ) );
 
-		add_theme_support( 'custom-header', apply_filters( 'materialism_custom_header_args', array(
-			'default-text-color' => '000000',
-			'wp-head-callback'   => 'materialism_header_style',
-		) ) );
 
 	}
 endif;
 add_action( 'after_setup_theme', 'materialism_setup' );
 
 
+add_filter( 'nav_menu_link_attributes', 'materialism_nav_menu_link_class', 10, 3 );
 
-function materialism_menu_css_class ( $classes, $item, $args ) {
-	if ( ! empty( $args->item_class ) ) {
-		$classes[] = $args->item_class;
+function materialism_nav_menu_link_class( $atts, $item, $args ) {
+	if( ! empty( $args->link_class ) ) {
+		$atts[ 'class' ] = $args->link_class;
 	}
-	return $classes;
+
+	return $atts;
 }
 
 /**
@@ -86,10 +79,10 @@ add_action( 'widgets_init', 'materialism_widgets_init' );
  */
 function materialism_scripts() {
 
-	wp_enqueue_style( 'materialism-style', get_stylesheet_uri() );
+	wp_enqueue_style( 'materialism-style', get_stylesheet_uri(), array( 'material-design-lite-style' ) );
 	wp_enqueue_style( 'roboto', 'https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium' );
 	wp_enqueue_style( 'material-icons', 'https://fonts.googleapis.com/icon?family=Material+Icons' );
-	wp_enqueue_style( 'material-design-lite-style', 'https://storage.googleapis.com/code.getmdl.io/1.0.6/material.grey-amber.min.css', array(), '1.0.6' );
+	wp_enqueue_style( 'material-design-lite-style', 'https://storage.googleapis.com/code.getmdl.io/1.0.6/material.grey-blue.min.css', array( 'material-icons' ), '1.0.6' );
 	wp_enqueue_script( 'material-design-lite-script', 'https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js', array( 'jquery' ), '1.0.6', true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
@@ -99,49 +92,3 @@ function materialism_scripts() {
 
 add_action( 'wp_enqueue_scripts', 'materialism_scripts' );
 
-
-if ( ! function_exists( 'materialism_header_style' ) ) :
-
-	function materialism_header_style() {
-
-		$header_text_color = get_header_textcolor();
-		$header_image      = get_header_image();
-
-		if ( HEADER_TEXTCOLOR === $header_text_color ) {
-			return;
-		}
-
-		?>
-		<style type="text/css">
-
-			.materialism-header,
-			.materialism-header a {
-				color: #<?php echo esc_attr( $header_text_color ); ?>;
-			}
-
-			.materialism-header {
-				background-image: url(<?php echo esc_url( $header_image ); ?>);
-				background-repeat: no-repeat;
-				background-color: transparent;
-				background-position: center top;
-				-webkit-background-size: cover;
-				-moz-background-size: cover;
-				-o-background-size: cover;
-				background-size: cover;
-			}
-
-			<?php
-			if ( ! display_header_text() ) :
-			?>
-			.materialism-header {
-				position: absolute;
-				clip: rect(1px, 1px, 1px, 1px);
-			}
-
-			<?php else: ?>
-
-			<?php endif; ?>
-		</style>
-		<?php
-	}
-endif; // materialism_header_style

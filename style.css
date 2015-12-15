@@ -1,3 +1,4 @@
+@charset "utf-8";
 /*
 Theme Name: Materialism
 Version: 0.0.1
@@ -6,3 +7,92 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
 
+body {
+	background-color: #FFF;
+}
+
+.materialism-header {
+
+}
+
+.materialism-header__title {
+	order: 1;
+	flex-shrink: 1;
+	flex-grow: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+
+.materialism-header__spacer {
+	order: 2;
+}
+
+.materialism-header__search-box {
+	order: 3;
+}
+
+.materialism-header__search-box.is-focused + .materialism-header__title {
+	width: 0;
+}
+
+
+
+
+.materialism-search-form {
+
+}
+.materialism-search-form.is-focused {
+	width: calc( 100% - 48px);
+	flex-shrink: 0;
+	flex-grow: 1;
+}
+.materialism-search-form__holder {
+	width: calc( 100% - 48px);
+}
+
+
+
+.materialism-card {
+	display: flex;
+
+	flex-direction: column;
+	align-items: stretch;
+	min-height: 360px;
+}
+
+.materialism-card__media {
+	box-sizing: border-box;
+	background-size: cover;
+	padding: 24px;
+	display: flex;
+	flex-grow: 1;
+	flex-direction: row;
+	align-items: flex-end;
+	cursor: pointer;
+}
+
+.materialism-card__title {
+	padding: 16px;
+	flex-grow: 1;
+}
+
+
+.materialism-navigation,
+.sub-menu {
+	margin: 0;
+	padding: 0;
+}
+
+.materialism-layout {
+
+}
+
+.materialism-layout__drawer {
+	border: none;
+}
+
+.materialism-container {
+	max-width: 800px;
+}
